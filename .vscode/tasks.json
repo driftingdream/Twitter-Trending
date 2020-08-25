@@ -1,0 +1,60 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "Test env variable",
+            "command": "source",
+            "args": [
+                ".env.test"
+            ],
+            "problemMatcher": [
+                "$eslint-compact"
+            ]
+        },
+        {
+            "type": "shell",
+            "label": "build",
+            "command": "/usr/bin/clang++",
+            "args": [
+                "-g",
+                "${file}",
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}",
+                "-std=c++11",
+                "-lcurlpp",
+                "-lcurl"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ]
+            // "group": {
+            //     "kind": "build",
+            //     "isDefault": true
+            // }
+        },
+        {
+            "type": "shell",
+            "label": "run",
+            "command": "${fileDirname}/${fileBasenameNoExtension}"
+        },
+        {
+            "type": "shell",
+            "label": "build & run",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Test env variable",
+                "build",
+                "run"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+
+        }
+    ]
+}
