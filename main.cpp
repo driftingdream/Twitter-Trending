@@ -5,32 +5,46 @@
 #include <curlpp/Easy.hpp>
 #include <curlpp/Exception.hpp>
 #include <curlpp/Options.hpp>
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
+std::string GIST_ID = getenv("GIST_ID");
+std::string GH_TOKEN = getenv("GH_TOKEN");
 
 int main()
 {
-    std::string twitterUrl = "https://api.twitter.com/1.1/trends/place.json?id=23424977";
+    std::string baseTwitterUrl = "https://api.twitter.com/1.1/trends/place.json?id=";
     std::list<std::string> headers;
 
     std::ostringstream os;
     curlpp::options::WriteStream ws(&os);
 
-    std::string headerData = "Authorization: Bearer ";
-    headerData.append(std::getenv("BEARER_TOKEN"));
     using namespace curlpp::Options;
     using namespace std;
+    std::string headerData = "Authorization: Bearer ";
     try
     {
+        headerData.append(std::getenv("BEARER_TOKEN"));
         curlpp::Cleanup cleaner;
         curlpp::Easy request;
         std::list<std::string> headers;
         headers.push_back(headerData);
         request.setOpt(new HttpHeader(headers));
-        request.setOpt(new Url(twitterUrl));
+        request.setOpt(new Url(baseTwitterUrl));
         request.setOpt(ws);
-        request.setOpt(new Verbose(true));
+        // request.setOpt(new Verbose(true));
         request.perform();
+
+
         string responseText = os.str();
-        cout << responseText;
+        // cout << responseText << endl;
+        json j = json::parse(responseText);
+        string twitterTrend;
+        for (int i = 0; i < j[0]["trends"].size(); i++)
+        {
+            twitterTrend += j[0]["trends"][i]["name"];
+            twitterTrend += "\n";
+        }
+        twitterTrend.erase(twitterTrend.size() - 1, 1);
 
     }
     catch (curlpp::LogicError &e)

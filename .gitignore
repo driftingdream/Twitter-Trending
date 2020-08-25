@@ -5,3 +5,8 @@ main
 test
 test.cpp
 main.dSYM
+test.dSYM/Contents/Info.plist
+.vscode/tasks.json
+.vscode/launch.json
+log.txt
+a.out
