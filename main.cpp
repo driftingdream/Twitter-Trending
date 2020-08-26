@@ -10,6 +10,34 @@ using json = nlohmann::json;
 std::string GIST_ID = getenv("GIST_ID");
 std::string GH_TOKEN = getenv("GH_TOKEN");
 
+class Dict
+{
+private:
+    std::string country, countryID;
+public:
+    Dict(std::string country, std::string countryID);
+    ~Dict();
+    std::string getCountry() const
+    {
+        return this->country;
+    }
+    std::string getCountryID() const
+    {
+        return this->countryID;
+    }
+};
+
+Dict::Dict(std::string country, std::string countryID)
+{
+    this->country = country;
+    this->countryID = countryID;
+}
+
+Dict::~Dict()
+{
+}
+
+
 void updateGist(std::string fileName, std::string content)
 {
     using namespace curlpp::options;
@@ -41,8 +69,6 @@ void updateGist(std::string fileName, std::string content)
     requests.setOpt(new PostFields(postData));
     requests.setOpt(new PostFieldSize(postData.length()));
     requests.perform();
-    
-    
 }
 
 int main()
@@ -69,15 +95,16 @@ int main()
         // request.setOpt(new Verbose(true));
         request.perform();
 
-
         string responseText = os.str();
         // cout << responseText << endl;
         json j = json::parse(responseText);
         string twitterTrend;
         for (int i = 0; i < j[0]["trends"].size(); i++)
         {
-            twitterTrend += to_string(i+1) + ' ';
+            twitterTrend += to_string(i + 1) + ' ';
             twitterTrend += j[0]["trends"][i]["name"];
+            twitterTrend += "    ";
+            twitterTrend += to_string(j[0]["trends"][i]["tweet_volume"]);
             twitterTrend += "\n";
         }
         twitterTrend.erase(twitterTrend.size() - 1, 1);
