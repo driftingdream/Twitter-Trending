@@ -16,6 +16,7 @@ class Dict
 {
 private:
     std::string country, countryID;
+
 public:
     Dict(std::string country, std::string countryID);
     ~Dict();
@@ -47,7 +48,7 @@ Dict worldDict[] = {
 
 int length = sizeof(worldDict) / sizeof(worldDict[0]);
 
-void updateGist(std::string fileName, std::string & content)
+void updateGist(std::string fileName, std::string &content)
 {
     using namespace curlpp::options;
     std::list<std::string> headers;
@@ -85,13 +86,12 @@ int main()
     std::string baseTwitterUrl = "https://api.twitter.com/1.1/trends/place.json?id=";
     std::stringstream fileNameStream;
     std::string fileName;
-    
 
     using namespace curlpp::Options;
     using namespace std;
     try
     {
-        for(int i = 0; i < length; i++)
+        for (int i = 0; i < length; i++)
         {
             std::list<std::string> headers;
             std::ostringstream os;
