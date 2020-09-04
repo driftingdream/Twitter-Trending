@@ -1,0 +1,27 @@
+name: Twitter Trending 
+
+on:
+  push:
+    branches: [ master ]
+  schedule:
+    - cron: "*/5 * * * *"
+
+jobs:
+  UpdateGist:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+    - name: Action Execute
+      env:
+        GIST_ID: 91c5d9ccec6f909dd3f36ef66ee3a3cd
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        BEARER_TOKEN: ${{ secrets.BEARER_TOKEN }}
+        TZ: Asia/Shanghai
+      run: |
+        cmake .
+        make
+        ./main
+        
