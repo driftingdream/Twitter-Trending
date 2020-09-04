@@ -14,6 +14,9 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@master
+      run: |
+        git submodule init
+        git submodule update
     - name: Action Execute
       env:
         GIST_ID: 91c5d9ccec6f909dd3f36ef66ee3a3cd
