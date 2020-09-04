@@ -18,6 +18,9 @@ jobs:
       run: |
         git submodule init
         git submodule update
+    - name: Install Curl Dev Lib
+      run: |
+        sudo apt-get install libcurl4-openssl-dev
     - name: Action Execute
       env:
         GIST_ID: 91c5d9ccec6f909dd3f36ef66ee3a3cd
